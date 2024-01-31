@@ -69,12 +69,14 @@ public:
 };
 
 class MultiColor : public Bola {
+   Color color;
    public:
       virtual void fun() {
-         int r=rand%256;
-         int g=rand%256;
-         int b=rand%256;
-         
+         int r=rand()%256;
+         int g=rand()%256;
+         int b=rand()%256;
+         color = Color(r,g,b);
+         setFillColor(color);
       }
 };
 
@@ -83,10 +85,14 @@ int main() {
     window.setFramerateLimit(60);
 
     vector<Bola> bolas;
+    vector<MultiColor> ballsGroup2;
 
     for (int i = 0; i < objects; i++) {
         Bola objeto;
         bolas.push_back(objeto);
+
+        MultiColor objeto2;
+        ballsGroup2.push_back(objeto2);
     }
 
     while (window.isOpen()) {
@@ -96,14 +102,16 @@ int main() {
                 window.close();
         }
 
-        for (Bola& bola : bolas) {
-           bola.fun();
+        for (int i=0;i<objects;i++) {
+           bolas[i].fun();
+           ballsGroup2[i].fun();
         }
 
         window.clear();
 
-        for (const Bola& bola : bolas) {
-            window.draw(bola);
+        for (int i=0;i<objects;i++) {
+            window.draw(bolas[i]);
+            window.draw(ballsGroup2[i]);
         }
 
         window.display();
