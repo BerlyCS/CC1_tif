@@ -12,8 +12,8 @@ using namespace std;
 
 float width = 1366.0f;
 float height = 768.0f;
-int max_speed=20;
-int max_size = 25;
+int max_speed=10;
+int max_size = 40;
 int objects = 50;
 
 class Bola : public CircleShape {
@@ -56,7 +56,7 @@ public:
             velX *=-1;
         }
         Y=Y + velY;
-        if (Y < 0 || Y > height + size*2) {
+        if (Y < 0 || Y > height - size*2) {
             velY *=-1;
         }
         Vector2f posicion(X,Y);
