@@ -13,7 +13,7 @@ using namespace std;
 
 float width = 1366.0f;
 float height = 768.0f;
-int max_speed=10;
+int max_speed = 10;
 int max_size = 40;
 int objects = 50;
 
