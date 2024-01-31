@@ -4,6 +4,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
 #include <cstdlib>
+#include <sys/types.h>
 #include <vector>
 #include <iostream>
 
@@ -69,12 +70,23 @@ public:
 };
 
 class MultiColor : public Bola {
+   private:
    Color color;
+   int r;
+   int g;
+   int b;
    public:
-      virtual void fun() {
-         int r=rand()%256;
-         int g=rand()%256;
-         int b=rand()%256;
+      MultiColor() : r(rand()%256),
+                     g(rand()%256),
+                     b(rand()%256)                     
+      {
+         color=Color(r,g,b);
+         setFillColor(color);
+      }
+      void fun() {
+         r=(r+getVelX());
+         g=(g+getVelX());
+         b=(b+getVelX());
          color = Color(r,g,b);
          setFillColor(color);
       }
@@ -82,7 +94,7 @@ class MultiColor : public Bola {
 
 int main() {
     RenderWindow window(VideoMode(width, height), "Bouncing balls");
-    window.setFramerateLimit(60);
+    window.setFramerateLimit(30);
 
     vector<Bola> bolas;
     vector<MultiColor> ballsGroup2;
