@@ -17,7 +17,8 @@ int max_speed = 10;
 int max_size = 5;
 int objects = 5000;
 
-class Bola : public CircleShape {
+//Clase Ball, Rebota por la pantalla
+class Ball : public CircleShape {
 private:
     float velY;
     float velX;
@@ -27,29 +28,51 @@ private:
     Color color;
 
 public:
-    Bola(): 
-      velX(rand() % max_speed),
-      velY(rand() % max_speed),
+    Ball(): 
+    //Se define la velocidad y el tamaño de forma aleatoria
+
+      velX(rand() % max_speed+1),
+      velY(rand() % max_speed+1),
       size(rand() % max_size+10) 
+
    {
+        //Color aleatorio
         color = Color(rand() % 256, rand() % 256, rand() % 256);
 
+        //Posicion inicial
         X = rand() % (int(width)-size*2);
         Y = rand() % (int(height)-size*2);
-
         Vector2f posicion(X, Y);
+
         setRadius(size);
         setPosition(posicion);
         setFillColor(color);
     }
 
-    void setVelY(float vel) { velY = vel; }
-    void setVelX(float vel) { velX = vel; }
-    float getVelY() {return velY;}
-    float getVelX() {return velX;}
-    void setPosX(float X) { this->X=X;}
-    void setPosY(float Y) { this->Y=Y;}
-    int getPosX(){return X;}
+    void setVelY(float vel) { 
+        velY = vel; 
+    }
+
+    void setVelX(float vel) {
+        velX = vel; 
+        }
+
+    float getVelY() {
+        return velY;
+        }
+
+    float getVelX() {
+        return velX;
+    }
+    void setPosX(float X) {
+        this->X=X;
+    }
+    void setPosY(float Y) {
+        this->Y=Y;
+    }
+    int getPosX(){
+        return X;
+    }
     int getPosY(){return Y;}
     virtual void fun() {
         X=X + velX;
@@ -69,7 +92,7 @@ public:
     }
 };
 
-class MultiColor : public Bola {
+class MultiColor : public Ball {
    private:
    Color color;
    int r;
@@ -94,14 +117,14 @@ class MultiColor : public Bola {
 
 int main() {
     RenderWindow window(VideoMode(width, height), "Bouncing balls");
-    window.setFramerateLimit(30);
+    window.setFramerateLimit(60);
 
-    vector<Bola> bolas;
+    vector<Ball> Balls;
     vector<MultiColor> ballsGroup2;
 
     for (int i = 0; i < objects; i++) {
-        Bola objeto;
-        bolas.push_back(objeto);
+        Ball objeto;
+        Balls.push_back(objeto);
 
         MultiColor objeto2;
         ballsGroup2.push_back(objeto2);
@@ -115,14 +138,14 @@ int main() {
         }
 
         for (int i=0;i<objects;i++) {
-           bolas[i].fun();
+           Balls[i].fun();
            ballsGroup2[i].fun();
         }
 
         window.clear();
 
         for (int i=0;i<objects;i++) {
-            window.draw(bolas[i]);
+            window.draw(Balls[i]);
             window.draw(ballsGroup2[i]);
         }
 
