@@ -3,6 +3,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Event.hpp>
+#include <cmath>
 #include <cstdlib>
 #include <sys/types.h>
 #include <vector>
@@ -15,7 +16,7 @@ float width = 1366.0f;
 float height = 768.0f;
 int max_speed = 10;
 int max_size = 5;
-int objects = 5000;
+int objects=100;
 
 //Clase Ball, Rebota por la pantalla
 class Ball : public CircleShape {
@@ -34,8 +35,7 @@ public:
       velX(rand() % max_speed+1),
       velY(rand() % max_speed+1),
       size(rand() % max_size+10) 
-
-   {
+    {
         //Color aleatorio
         color = Color(rand() % 256, rand() % 256, rand() % 256);
 
@@ -90,15 +90,24 @@ public:
     void print() {
         cout << "velY: " << velY << " velX: " << velX << endl;
     }
+
+    double distance(int Mx, int My) {
+      int dx= pow((Mx-X),2);
+      int dy = pow((My-Y),2);
+      if ((sqrt(dx*dx + dy*dy)) < size) {
+        return true;
+      }
+      return false;
+    }
 };
 
 class MultiColor : public Ball {
-   private:
-   Color color;
-   int r;
-   int g;
-   int b;
-   public:
+    private:
+        Color color;
+        int r;
+        int g;
+        int b;
+    public:
       MultiColor() : r(rand()%256),
                      g(rand()%256),
                      b(rand()%256)                     
@@ -120,14 +129,10 @@ int main() {
     window.setFramerateLimit(60);
 
     vector<Ball> Balls;
-    vector<MultiColor> ballsGroup2;
 
     for (int i = 0; i < objects; i++) {
         Ball objeto;
         Balls.push_back(objeto);
-
-        MultiColor objeto2;
-        ballsGroup2.push_back(objeto2);
     }
 
     while (window.isOpen()) {
@@ -139,14 +144,12 @@ int main() {
 
         for (int i=0;i<objects;i++) {
            Balls[i].fun();
-           ballsGroup2[i].fun();
         }
 
         window.clear();
 
         for (int i=0;i<objects;i++) {
             window.draw(Balls[i]);
-            window.draw(ballsGroup2[i]);
         }
 
         window.display();
